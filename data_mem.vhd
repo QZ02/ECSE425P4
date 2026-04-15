@@ -3,7 +3,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 USE ieee.numeric_std.all;
 
-ENTITY data_memory IS
+ENTITY data_mem IS
 	GENERIC(
 		ram_size : INTEGER := 32768;
 		mem_delay : time := 10 ns;
@@ -15,12 +15,12 @@ ENTITY data_memory IS
 		address: IN INTEGER RANGE 0 TO ram_size-1;
 		memwrite: IN STD_LOGIC;
 		memread: IN STD_LOGIC;
-		readdata: OUT STD_LOGIC_VECTOR (7 DOWNTO 0);
+		LMD: out std_logic_vector(31 downto 0);
 		waitrequest: OUT STD_LOGIC
 	);
-END data-memory;
+END data_mem;
 
-ARCHITECTURE rtl OF memory IS
+ARCHITECTURE arch OF data_mem IS
 	TYPE MEM IS ARRAY(ram_size-1 downto 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
 	SIGNAL ram_block: MEM;
 	SIGNAL read_address_reg: INTEGER RANGE 0 to ram_size-1;
@@ -67,4 +67,4 @@ BEGIN
 	waitrequest <= write_waitreq_reg and read_waitreq_reg;
 
 
-END rtl;
+END arch;
